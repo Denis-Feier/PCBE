@@ -1,6 +1,24 @@
 package com.denisfeier.entity;
 
-public class Person extends Thread {
+import com.denisfeier.lib.Market;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
-    // Need to add the logic for transactions and create new stock in the market
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
+@ToString
+public abstract class Person {
+    protected final Market market;
+    private String id;
+
+    public Person(Market market) {
+        this.market = market;
+        this.id = UUID.randomUUID().toString().replace("-", "");;
+    }
+
+    public abstract void addToHistory(StockElement stockElement, int amount);
+
 }

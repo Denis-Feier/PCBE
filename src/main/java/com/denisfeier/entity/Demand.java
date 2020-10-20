@@ -1,8 +1,8 @@
 package com.denisfeier.entity;
 
-public class Stock extends StockElement{
+public class Demand extends StockElement {
 
-    public Stock(double price, int count, Person owner) {
+    public Demand(double price, int count, Person owner) {
         super(price, count, owner);
     }
 
