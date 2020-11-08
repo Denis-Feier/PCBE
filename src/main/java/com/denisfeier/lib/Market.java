@@ -6,17 +6,15 @@ import com.denisfeier.entity.Stock;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Market {
+public interface Market {
 
-    public void start() {
 
-    }
+    Market run() throws Exception;
 
-    public void addStock(Stock stock) {
+    Market stop() throws Exception;
 
-    }
+    void addSupply(Stock stock);
 
-    public void addDemand(Demand demand) {
+    void addDemand(Demand demand);
 
-    }
 }

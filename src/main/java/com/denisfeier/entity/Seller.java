@@ -4,24 +4,27 @@ import com.denisfeier.lib.Market;
 
 public class Seller extends Person {
 
-    public Seller(Market market) {
-        super(market);
+    public Seller(String instanceIdentifier, Market stockMarket) {
+        super(instanceIdentifier, stockMarket);
+    }
+
+    public void createSupply(double price, int count) {
+        final Seller self = this;
+        final Stock stock = new Stock(price, count, this);
+        new Thread(new Runnable() {
+            public void run() {
+                synchronized (self.stockMarket) {
+                    self.stockMarket.addSupply(stock);
+                }
+                Thread.currentThread().interrupt();
+            }
+        }).start();
     }
 
     @Override
-    public void addToHistory(StockElement stockElement, int amount) {
-
+    public void notify(double cost) {
+         System.out.println("Seller: " + super.getIdentifier() + " sold an action with " + cost);
     }
 
-    public void addStock(double price, int amount) {
 
-        Stock stock = new Stock(price, amount, this);
-        new Thread(() -> {
-            synchronized (this.market) {
-                this.market.addStock(stock);
-            }
-            Thread.currentThread().interrupt();
-        }).start();
-
-    }
 }

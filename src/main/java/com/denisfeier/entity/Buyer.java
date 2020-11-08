@@ -4,22 +4,24 @@ import com.denisfeier.lib.Market;
 
 public class Buyer extends Person {
 
-    public Buyer(Market market) {
-        super(market);
+    public Buyer(String instanceIdentifier, Market stockMarket) {
+        super(instanceIdentifier, stockMarket);
     }
 
     @Override
-    public void addToHistory(StockElement stockElement, int amount) {
-
+    void notify(double cost) {
+         System.out.println("Buyer: " + super.getIdentifier() + " bought an action with " + cost);
     }
 
-    public void addDemand(Demand demand) {
-        new Thread(()-> {
-            synchronized (this.market) {
-                this.market.addDemand(demand);
+    public void addDemand(final Demand demand) {
+        final Buyer self = this;
+        new Thread(new Runnable() {
+            public void run() {
+                synchronized (self.stockMarket) {
+                    self.stockMarket.addDemand(demand);
+                }
+                Thread.currentThread().interrupt();
             }
-            Thread.currentThread().interrupt();
         }).start();
     }
-
 }
